@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import java.net.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import jacklsoft.jengine.controls.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="446.0" prefWidth="753.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jacklsoft.jengine.units.Rights">
+    <stylesheets>
+        <URL value="@Styles.css" />
+    </stylesheets>
+   <children>
+      <TabPane layoutY="1.0" prefHeight="446.0" prefWidth="753.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="Rights">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="24.0" text="User" />
+                        <JBField fx:id="tfUser" layoutX="49.0" layoutY="19.0" onAction="#tfUserAction" prefHeight="25.0" prefWidth="145.0" />
+                        <JBButton fx:id="bSave" layoutX="194.0" layoutY="19.0" onAction="#bSaveAction">
+                           <graphic>
+                              <ImageView fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/jacklsoft/jengine/img/save.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JBButton>
+                        <JBTable fx:id="tvRights" editable="true" layoutY="60.0" prefHeight="386.0" prefWidth="334.0">
+                           <columns>
+                              <TableColumn fx:id="tcRights_unit" editable="false" prefWidth="238.0" text="Units" />
+                              <TableColumn fx:id="tcRights_allow" prefWidth="75.0" text="Allow" />
+                           </columns></JBTable>
+                        <Label layoutX="449.0" layoutY="24.0" text="Unit" />
+                        <ComboBox fx:id="cbUnit" layoutX="485.0" layoutY="19.0" onAction="#cbUnitAction" prefHeight="23.0" prefWidth="182.0" />
+                        <JBTable fx:id="tvUsers" layoutX="440.0" layoutY="59.0" prefHeight="389.0" prefWidth="284.0">
+                           <columns>
+                              <TableColumn fx:id="tcUsers_user" prefWidth="262.0" text="Users" />
+                           </columns>
+                        </JBTable>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

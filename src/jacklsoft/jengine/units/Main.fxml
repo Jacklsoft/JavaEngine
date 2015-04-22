@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import jacklsoft.jengine.controls.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import java.net.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jacklsoft.jengine.units.Main">
+    <stylesheets>
+        <URL value="@Styles.css" />
+    </stylesheets>
+    <children>
+      <TabPane fx:id="tpMain" layoutX="1.0" layoutY="26.0" prefHeight="548.0" prefWidth="943.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets></TabPane>
+      <TitledPane fx:id="tpTree" layoutY="2.0" opacity="0.5" styleClass="unitTree" text="Inicio" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <content>
+          <AnchorPane prefHeight="424.0" prefWidth="287.0">
+               <children>
+                  <TreeView fx:id="aTree" layoutX="18.6" layoutY="60.6" minHeight="0.0" minWidth="0.0" prefHeight="372.0" prefWidth="282.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                  </TreeView>
+                  <Label layoutX="32.0" layoutY="14.0" prefHeight="17.0" prefWidth="45.0" text="Admin" />
+                  <PasswordField fx:id="pfAdmin" layoutX="77.0" layoutY="10.0" prefHeight="25.0" prefWidth="109.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <ToggleButton fx:id="nightStyle" layoutX="879.0" mnemonicParsing="false" onAction="#setNightStyle" prefHeight="25.0" prefWidth="31.0" style="-fx-padding: 0px 0px 0px 0px;" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="0.0">
+         <graphic>
+            <ImageView fx:id="nightStyleImg" fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="/jacklsoft/jengine/img/blackMoon.png" />
+               </image></ImageView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="Cambiar contraste" />
+         </tooltip>
+      </ToggleButton>
+      <Button fx:id="tbFullScreen" layoutX="899.0" layoutY="2.0" mnemonicParsing="false" onAction="#fullScreen" prefHeight="25.0" prefWidth="31.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <graphic>
+            <ImageView fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/jacklsoft/jengine/img/expand.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="Pantalla completa" />
+         </tooltip>
+      </Button>
+    </children>
+</AnchorPane>
