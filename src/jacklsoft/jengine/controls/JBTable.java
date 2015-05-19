@@ -33,6 +33,8 @@ import jacklsoft.jengine.interfaces.Query;
 import jacklsoft.jengine.interfaces.SendRow;
 import jacklsoft.jengine.tools.Alert;
 import jacklsoft.jengine.tools.Tools;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.SortType;
 
 /**
  *
@@ -74,6 +76,8 @@ public class JBTable<T> extends TableView<T> implements Skin<JBTable>, Control{
     }
     public void filter(){
         try {
+            ObservableList<TableColumn<T, ?>> col = FXCollections.observableArrayList();
+            for(TableColumn<T, ?> i: this.getSortOrder()){ col.add(i); }
             getItems().clear();
             if(query != null){
                 ObservableList<T> D = query.execute();
@@ -81,6 +85,7 @@ public class JBTable<T> extends TableView<T> implements Skin<JBTable>, Control{
                     setItems(query.execute());
                 }
             }
+            for(TableColumn<T, ?> i: col){ this.getSortOrder().add(i); }
         } catch (Alert ex) {Tools.alertDialog(ex);}
     }
     public void setFilterOnReset(boolean filter){

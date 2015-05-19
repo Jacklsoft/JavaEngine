@@ -13,7 +13,7 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import jacklsoft.jengine.db.SQLServer;
 import jacklsoft.jengine.units.Main;
-import java.util.HashSet;
+import java.io.File;
 import java.util.TreeSet;
 import javax.json.JsonString;
 
@@ -40,6 +40,8 @@ public class JEngine{
             JsonObject cfg = reader.readObject();
             cfg = cfg.getJsonObject("run");
             rootPath = cfg.getString("path");
+            new File(rootPath+"resources").mkdir();
+            new File(rootPath+"resources\\img").mkdir();
             title = cfg.getString("title");
             connection = cfg.getString("connection");
             if(!SQLServer.init("com.microsoft.sqlserver.jdbc.SQLServerDriver", connection)){
