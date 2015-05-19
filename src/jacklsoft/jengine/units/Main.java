@@ -65,25 +65,27 @@ public class Main implements Initializable {
         aTree.getRoot().getChildren().clear();
         ObservableList<Permission> sql = Permission.query(System.getProperty("user.name"), null);
         for(Permission i: sql){
-            StringTokenizer tokenizer = new StringTokenizer((i.getFolder() == null ? "" : i.getFolder()), "/");
-            TreeItem<String> path = aTree.getRoot();
-            while(tokenizer.hasMoreTokens()){
-                String folder = tokenizer.nextToken();
-                boolean exists = false;
-                for(TreeItem<String> j: path.getChildren()){
-                    if(folder.equals(j.getValue())){
-                        exists = true;
-                        path = j;
+            if(i.getAllowed()){
+                StringTokenizer tokenizer = new StringTokenizer((i.getFolder() == null ? "" : i.getFolder()), "/");
+                TreeItem<String> path = aTree.getRoot();
+                while(tokenizer.hasMoreTokens()){
+                    String folder = tokenizer.nextToken();
+                    boolean exists = false;
+                    for(TreeItem<String> j: path.getChildren()){
+                        if(folder.equals(j.getValue())){
+                            exists = true;
+                            path = j;
+                        }
+                    }
+                    if(!exists){
+                        TreeItem<String> newPath = new TreeItem(folder);
+                        path.getChildren().add(newPath);
+                        path = newPath;
                     }
                 }
-                if(!exists){
-                    TreeItem<String> newPath = new TreeItem(folder);
-                    path.getChildren().add(newPath);
-                    path = newPath;
-                }
+                TreeItem<String> newItem = new TreeItem(i.getUnit());
+                path.getChildren().add(newItem);
             }
-            TreeItem<String> newItem = new TreeItem(i.getUnit());
-            path.getChildren().add(newItem);
         }
     }
     public void goToUnit(String unitRoot){
