@@ -1,3 +1,6 @@
+.root{
+    -fx-font-size: 12px;
+}
 .unitTree:hover{
     -fx-opacity: 1;
 }
