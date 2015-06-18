@@ -17,6 +17,7 @@ import javafx.scene.input.DataFormat;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import jacklsoft.jengine.JEngine;
+import java.nio.file.StandardCopyOption;
 
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialogs;
@@ -36,10 +37,12 @@ public class Tools {
         try{
             if(file == null){
                 File dest = new File(JEngine.rootPath+"resources\\"+path+ID+extension);
-                Files.delete(dest.toPath());
+                if(dest.exists()){
+                    Files.delete(dest.toPath());
+                }
             } else {
                 File dest = new File(JEngine.rootPath+"resources\\"+path+ID+extension);
-                Files.copy(file.toPath(), dest.toPath());
+                Files.copy(file.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
             return true;
         } catch (IOException ex) {Tools.exceptionDialog("IO Error", "Error en la escritura/lectura del archivo", ex);}
