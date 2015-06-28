@@ -15,6 +15,7 @@ import jacklsoft.jengine.db.SQLServer;
 import jacklsoft.jengine.units.Main;
 import java.io.File;
 import java.util.TreeSet;
+import javafx.application.Application.Parameters;
 import javax.json.JsonString;
 
 /**
@@ -33,25 +34,33 @@ public class JEngine{
     public TreeSet<String> rights;
     
     private JEngine(){};
-    public void init(Stage stage){
+    public void init(Stage stage, Parameters args){
         try {
             this.stage = stage;
+            
             JsonReader reader = Json.createReader(getClass().getResourceAsStream("/jacklsoft/jengine/config.json"));
             JsonObject cfg = reader.readObject();
-            cfg = cfg.getJsonObject("run");
-            rootPath = cfg.getString("path");
-            new File(rootPath+"resources").mkdir();
-            new File(rootPath+"resources\\img").mkdir();
-            title = cfg.getString("title");
-            connection = cfg.getString("connection");
-            if(!SQLServer.init("com.microsoft.sqlserver.jdbc.SQLServerDriver", connection)){
-                System.exit(0);
-            }
             rights = new TreeSet();
             for(JsonString i: cfg.getJsonArray("rights").getValuesAs(JsonString.class)){
                 rights.add(i.getString());
             }
             reader.close();
+            
+            title = args.getNamed().get("title");
+            rootPath = args.getNamed().get("resources");
+            connection = 
+                    "jdbc:sqlserver://"+args.getNamed().get("server")+":"+args.getNamed().get("port")+
+                    ";databaseName="+args.getNamed().get("database")+
+                    ";user="+args.getNamed().get("user")+
+                    ";password="+args.getNamed().get("password")+";";
+            
+            new File(rootPath+"resources").mkdir();
+            new File(rootPath+"resources\\img").mkdir();
+            
+            if(!SQLServer.init("com.microsoft.sqlserver.jdbc.SQLServerDriver", connection)){
+                System.exit(0);
+            }
+            
             root = FXMLLoader.load(getClass().getResource("/jacklsoft/jengine/units/Main.fxml"));
             stage.setTitle(title);
             scene = new Scene(root);
