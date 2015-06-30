@@ -17,8 +17,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import jacklsoft.jengine.tools.Tools;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class SQLServer<T>{
     static Connection db;
@@ -30,6 +28,7 @@ public class SQLServer<T>{
     
     public static boolean checkVersion(){
         boolean RV = false;
+        String newVersion = "";
         try {
             CallableStatement sql = db.prepareCall("{CALL _Config_get(?,?,?,?,?)}");
             sql.setString("ID", "version");
@@ -39,14 +38,15 @@ public class SQLServer<T>{
             sql.setNull("dateValue", Types.DATE);
             ResultSet rs = sql.executeQuery();
             if(rs.next()){
-                if(rs.getString("stringValue").equals(version)){
+                newVersion = rs.getString("stringValue");
+                if(newVersion.equals(version)){
                     RV = true;
                 }
             }
             sql.close();
         } catch (SQLException ex) { SQLServer.showException(ex); }
         if(!RV){
-            Tools.errorDialog("Version Error", "Hay una nueva actualización disponible. La aplicación se cerrará para que pueda ser instalada");
+            Tools.errorDialog("Version Error", "Hay una nueva actualización disponible ["+newVersion+"] / "+version+". La aplicación se cerrará para que pueda ser instalada");
             System.exit(0);
         }
         return RV;
