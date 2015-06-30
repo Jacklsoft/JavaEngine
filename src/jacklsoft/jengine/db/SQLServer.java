@@ -17,6 +17,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import jacklsoft.jengine.tools.Tools;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SQLServer<T>{
     static Connection db;
@@ -24,9 +26,34 @@ public class SQLServer<T>{
     CallableStatement cs;
     ResultSet rs;
     ObservableList<T> result;
+    public static String version;
     
-    public static boolean init(String driverString, String connectionString){
+    public static boolean checkVersion(){
+        boolean RV = false;
         try {
+            CallableStatement sql = db.prepareCall("{CALL _Config_get(?,?,?,?,?)}");
+            sql.setString("ID", "version");
+            sql.setNull("stringValue", Types.VARCHAR);
+            sql.setNull("intValue", Types.INTEGER);
+            sql.setNull("floatValue", Types.FLOAT);
+            sql.setNull("dateValue", Types.DATE);
+            ResultSet rs = sql.executeQuery();
+            if(rs.next()){
+                if(rs.getString("stringValue").equals(version)){
+                    RV = true;
+                }
+            }
+            sql.close();
+        } catch (SQLException ex) { SQLServer.showException(ex); }
+        if(!RV){
+            Tools.errorDialog("Version Error", "Hay una nueva actualización disponible. La aplicación se cerrará para que pueda ser instalada");
+            System.exit(0);
+        }
+        return RV;
+    }
+    public static boolean init(String driverString, String connectionString, String version){
+        try {
+            SQLServer.version = version;
             Class.forName(driverString);
             db = DriverManager.getConnection(connectionString);
         } catch (ClassNotFoundException e) { 
@@ -54,11 +81,15 @@ public class SQLServer<T>{
             SQLServer.showException(e); return null;}
     }
     public SQLServer(String st) throws SQLException{
+        if(checkVersion()){
             cs = db.prepareCall(st);
+        }
     }
     public void query() throws SQLException{
+        if(checkVersion()){
             rs = cs.executeQuery();
             result = FXCollections.observableArrayList();
+        }
     }
     public void addItem(T item){
         result.add(item);
@@ -91,7 +122,9 @@ public class SQLServer<T>{
         }
     }
     public void update() throws SQLException {
-        cs.executeUpdate();
+        if(checkVersion()){
+            cs.executeUpdate();
+        }
     }
     public void end() throws SQLException{
             cs.close();

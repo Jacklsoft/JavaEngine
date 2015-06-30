@@ -57,7 +57,7 @@ public class JEngine{
             new File(rootPath+"resources").mkdir();
             new File(rootPath+"resources\\img").mkdir();
             
-            if(!SQLServer.init("com.microsoft.sqlserver.jdbc.SQLServerDriver", connection)){
+            if(!SQLServer.init("com.microsoft.sqlserver.jdbc.SQLServerDriver", connection, args.getNamed().get("version"))){
                 System.exit(0);
             }
             
