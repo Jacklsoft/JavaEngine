@@ -46,8 +46,8 @@ public class JBContext extends ContextMenu{
         
         return this;
     }
-    public JBContext addDate(String nombre, JBDateField field){
-        field.setPromptText(nombre);
+    public JBContext addDate(String nombre, JBField field){
+        field.setPromptText(nombre+"[dd/mm/yyyy]");
         field.setOnAction(aeFilter);
         CustomMenuItem CMI = new CustomMenuItem(field);
         CMI.setHideOnClick(false);
