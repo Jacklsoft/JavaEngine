@@ -21,3 +21,7 @@
 .table-view{
     -fx-font-size: 10px;
 }
+
+.increment-button, .decrement-button{
+    -fx-padding: 7px;
+}
