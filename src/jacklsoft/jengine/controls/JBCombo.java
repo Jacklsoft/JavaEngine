@@ -49,9 +49,11 @@ public class JBCombo<T extends KeyValue<K, V>, K, V> extends ComboBox<T> impleme
     JBContext context;
     EventHandler<ActionEvent> aeFilter = (ae) -> filter();
     EventHandler<ActionEvent> aeClear = (ae) -> getSelectionModel().clearSelection();
+    String defStyle;
     
     public JBCombo(){
         super();
+        defStyle = this.getStyle();
         skinProperty().addListener((OL, OV, NV)->{
             if(NV instanceof ComboBoxListViewSkin){
                 ((ComboBoxListViewSkin)NV).getListView().setOnKeyPressed((AL)->{
@@ -102,8 +104,12 @@ public class JBCombo<T extends KeyValue<K, V>, K, V> extends ComboBox<T> impleme
     }
     @Override
     public void reset(){
+        setStyle(defStyle);
         searchField.setText("");
         this.getSelectionModel().clearSelection();
+    }
+    public void setRedStyle(){
+        setStyle("-fx-border-color: #FF6666");
     }
     public void search(){
         filtered.setPredicate(pFilter1);
@@ -112,6 +118,7 @@ public class JBCombo<T extends KeyValue<K, V>, K, V> extends ComboBox<T> impleme
         if(isFocused() && !context.isShowing()) show();
     }
     public boolean isNull(){
+        setStyle(defStyle);
         return getSelectionModel().getSelectedItem() == null;
     }
     public void putItem(K item){
@@ -128,22 +135,27 @@ public class JBCombo<T extends KeyValue<K, V>, K, V> extends ComboBox<T> impleme
                     return;
                 }
             }
+            setRedStyle();
             Tools.errorDialog("Error message", "El valor \""+item.toString()+"\" del campo "+getId()+" no existe o es obsoleto.");
             this.getSelectionModel().clearSelection();
         }
     }
     public T retNItem() throws Alert {
+        setStyle(defStyle);
         return getSelectionModel().getSelectedItem();
     }
     public T retItem() throws Alert{
         T RV = getSelectionModel().getSelectedItem();
         if(RV == null){
+            setRedStyle();
             throw new Alert("Error message", "El campo "+getId()+" se encuentra vacío");
         } else {
+            setStyle(defStyle);
             return RV;
         }
     }
     public K retNKey() throws Alert{
+        setStyle(defStyle);
         T item = retNItem();
         if(item == null){
             return null;
@@ -153,6 +165,7 @@ public class JBCombo<T extends KeyValue<K, V>, K, V> extends ComboBox<T> impleme
         return retItem().key();
     }
     public V retNValue() throws Alert{
+        setStyle(defStyle);
         T item = retNItem();
         if(item == null){
             return null;
