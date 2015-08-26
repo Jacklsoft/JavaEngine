@@ -12,6 +12,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import jacklsoft.jengine.db.SQLServer;
+import jacklsoft.jengine.tools.BIRT;
 import jacklsoft.jengine.units.Main;
 import java.io.File;
 import java.util.TreeSet;
@@ -25,6 +26,7 @@ import javax.json.JsonString;
 public class JEngine{
     public static JEngine ST = new JEngine();
     public static String rootPath;
+    public static BIRT reportEngine;
     public Stage stage;
     public Scene scene;
     public Parent root;
@@ -61,6 +63,12 @@ public class JEngine{
                 System.exit(0);
             }
             
+            reportEngine = new BIRT(
+                    "jdbc:sqlserver://"+args.getNamed().get("server")+":"+args.getNamed().get("port")+
+                    ";databaseName="+args.getNamed().get("database"),
+                    args.getNamed().get("user"),
+                    args.getNamed().get("password"));
+            
             root = FXMLLoader.load(getClass().getResource("/jacklsoft/jengine/units/Main.fxml"));
             stage.setTitle(title);
             scene = new Scene(root);
@@ -74,6 +82,7 @@ public class JEngine{
     }
     private void close(WindowEvent e){
         SQLServer.close();
+        reportEngine.destroy();
     }
     public TreeSet<String> getRights(){
         return rights;

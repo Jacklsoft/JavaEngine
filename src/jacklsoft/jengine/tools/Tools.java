@@ -53,6 +53,11 @@ public class Tools {
         fc.getExtensionFilters().addAll(extension);
         return fc.showOpenDialog(jacklsoft.jengine.JEngine.ST.scene.getWindow());
     }
+    public static File saveFile(ExtensionFilter... extension){
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().addAll(extension);
+        return fc.showSaveDialog(jacklsoft.jengine.JEngine.ST.scene.getWindow());
+    }
     public static Date getToday(){
         return new Date(new java.util.Date().getTime());
     }
