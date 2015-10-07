@@ -1,5 +1,6 @@
 package jacklsoft.jengine;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,7 +13,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import jacklsoft.jengine.db.SQLServer;
-import jacklsoft.jengine.tools.BIRT;
 import jacklsoft.jengine.units.Main;
 import java.io.File;
 import java.util.TreeSet;
@@ -26,7 +26,6 @@ import javax.json.JsonString;
 public class JEngine{
     public static JEngine ST = new JEngine();
     public static String rootPath;
-    public static BIRT reportEngine;
     public Stage stage;
     public Scene scene;
     public Parent root;
@@ -39,35 +38,28 @@ public class JEngine{
     public void init(Stage stage, Parameters args){
         try {
             this.stage = stage;
-            
-            JsonReader reader = Json.createReader(getClass().getResourceAsStream("/jacklsoft/jengine/config.json"));
-            JsonObject cfg = reader.readObject();
+
+            JsonReader configReader = Json.createReader(new FileInputStream("rsc/launcher.json"));
+            JsonReader rightsReader = Json.createReader(getClass().getResourceAsStream("/jacklsoft/jengine/config.json"));
+            JsonObject rightsObject = rightsReader.readObject();
+            JsonObject cfgObject = configReader.readObject();
+
             rights = new TreeSet();
-            for(JsonString i: cfg.getJsonArray("rights").getValuesAs(JsonString.class)){
+            for(JsonString i: rightsObject.getJsonArray("rights").getValuesAs(JsonString.class)){
                 rights.add(i.getString());
             }
-            reader.close();
+            rightsReader.close();
             
-            title = args.getNamed().get("title");
-            rootPath = args.getNamed().get("resources");
-            connection = 
-                    "jdbc:sqlserver://"+args.getNamed().get("server")+":"+args.getNamed().get("port")+
-                    ";databaseName="+args.getNamed().get("database")+
-                    ";user="+args.getNamed().get("user")+
-                    ";password="+args.getNamed().get("password")+";";
+            title = cfgObject.getString("title");
+            rootPath = cfgObject.getString("resources");
+            connection = cfgObject.getString("connection");
             
             new File(rootPath+"resources").mkdir();
             new File(rootPath+"resources\\img").mkdir();
             
-            if(!SQLServer.init("com.microsoft.sqlserver.jdbc.SQLServerDriver", connection, args.getNamed().get("version"))){
+            if(!SQLServer.init("com.microsoft.sqlserver.jdbc.SQLServerDriver", connection)){
                 System.exit(0);
             }
-            
-            reportEngine = new BIRT(
-                    "jdbc:sqlserver://"+args.getNamed().get("server")+":"+args.getNamed().get("port")+
-                    ";databaseName="+args.getNamed().get("database"),
-                    args.getNamed().get("user"),
-                    args.getNamed().get("password"));
             
             root = FXMLLoader.load(getClass().getResource("/jacklsoft/jengine/units/Main.fxml"));
             stage.setTitle(title);
@@ -82,7 +74,6 @@ public class JEngine{
     }
     private void close(WindowEvent e){
         SQLServer.close();
-        reportEngine.destroy();
     }
     public TreeSet<String> getRights(){
         return rights;
