@@ -1,7 +1,8 @@
 package jacklsoft.jengine.tools;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
 import org.jsoup.Jsoup;
@@ -15,7 +16,7 @@ import java.io.*;
  */
 public class HTMLDocument {
     public interface JSONFiller<T>{
-        public JsonObject fromSQL(T sql);
+        public ObjectNode fromSQL(T sql);
     }
 
     Document document;
@@ -45,11 +46,12 @@ public class HTMLDocument {
     public void addCSS(String path){
         appendHTML("head", "<link href='" + new File(path).getAbsolutePath() + "' rel='stylesheet'/>");
     }
-    public void addData(String selector, String varName, JsonObject data){
+    public void addData(String selector, String varName, ObjectNode data){
         setHTML(selector, "var " + varName + " = " + data.toString() + ";");
     }
-    public static <T> JsonArray SQLtoJSON(ObservableList<T> result, JSONFiller<T> filler){
-        JsonArray array = new JsonArray();
+    public static <T> ArrayNode SQLtoJSON(ObservableList<T> result, JSONFiller<T> filler){
+        JsonNodeFactory JNF = JsonNodeFactory.instance;
+        ArrayNode array = JNF.arrayNode();
         for(T i: result){
             array.add(filler.fromSQL(i));
         }
