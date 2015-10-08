@@ -1,23 +1,24 @@
 package jacklsoft.jengine;
 
-import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
 import jacklsoft.jengine.db.SQLServer;
 import jacklsoft.jengine.units.Main;
 import java.io.File;
 import java.util.TreeSet;
 import javafx.application.Application.Parameters;
-import javax.json.JsonString;
 
 /**
  *
@@ -39,20 +40,38 @@ public class JEngine{
         try {
             this.stage = stage;
 
-            JsonReader configReader = Json.createReader(new FileInputStream("rsc/launcher.json"));
-            JsonReader rightsReader = Json.createReader(getClass().getResourceAsStream("/jacklsoft/jengine/config.json"));
-            JsonObject rightsObject = rightsReader.readObject();
-            JsonObject cfgObject = configReader.readObject();
-
+            JsonReader rightsReader = new JsonReader(new InputStreamReader(getClass().getResourceAsStream("/jacklsoft/jengine/config.json")));
             rights = new TreeSet();
-            for(JsonString i: rightsObject.getJsonArray("rights").getValuesAs(JsonString.class)){
-                rights.add(i.getString());
+            rightsReader.beginObject();
+            while(rightsReader.hasNext()){
+                if(rightsReader.nextName() == "rights"){
+                    rightsReader.beginArray();
+                    while(rightsReader.hasNext()){
+                        rights.add(rightsReader.nextString());
+                    }
+                    rightsReader.endArray();
+                }
             }
+            rightsReader.endObject();
             rightsReader.close();
-            
-            title = cfgObject.getString("title");
-            rootPath = cfgObject.getString("resources");
-            connection = cfgObject.getString("connection");
+
+            JsonReader configReader = new JsonReader(new FileReader(new File("rsc/launcher.json")));
+            configReader.beginObject();
+            while(configReader.hasNext()){
+                switch(configReader.nextName()){
+                    case "title":
+                        title = configReader.nextString();
+                        break;
+                    case "resources":
+                        rootPath = configReader.nextString();
+                        break;
+                    case "connection":
+                        connection = configReader.nextString();
+                        break;
+                }
+            }
+            configReader.endObject();
+            configReader.close();
             
             new File(rootPath+"resources").mkdir();
             new File(rootPath+"resources\\img").mkdir();

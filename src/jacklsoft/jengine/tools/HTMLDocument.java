@@ -1,12 +1,12 @@
 package jacklsoft.jengine.tools;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import javax.json.*;
-import javax.json.stream.JsonGeneratorFactory;
 import java.awt.*;
 import java.io.*;
 
@@ -49,12 +49,12 @@ public class HTMLDocument {
         setHTML(selector, "var " + varName + " = " + data.toString() + ";");
     }
     public static <T> JsonArray SQLtoJSON(ObservableList<T> result, JSONFiller<T> filler){
-        JsonArrayBuilder array = Json.createArrayBuilder();
+        JsonArray array = new JsonArray();
         for(T i: result){
             array.add(filler.fromSQL(i));
         }
 
-        return array.build();
+        return array;
     }
     public void run(){
         try {
