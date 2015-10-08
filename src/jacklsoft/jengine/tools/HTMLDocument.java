@@ -41,16 +41,6 @@ public class HTMLDocument {
             return null;
         }
     }
-    public String fileToString(File file){
-        String RV = null;
-        try {
-            Scanner S = new Scanner(new File("readme.txt")).useDelimiter("\\A");
-            RV = S.next();
-            S.close();
-            return RV;
-        } catch (FileNotFoundException e) {Tools.exceptionDialog("IO Exception", "File not found", e);}
-        return RV;
-    }
     public void addJS(String path){
         appendHTML("head", "<script src='" + new File(path).getAbsolutePath() + "'></script>");
     }
