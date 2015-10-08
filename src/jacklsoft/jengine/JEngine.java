@@ -1,13 +1,10 @@
 package jacklsoft.jengine;
 
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,6 +15,11 @@ import jacklsoft.jengine.units.Main;
 import java.io.File;
 import java.util.TreeSet;
 import javafx.application.Application.Parameters;
+
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonString;
 
 /**
  *
@@ -39,36 +41,20 @@ public class JEngine{
         try {
             this.stage = stage;
 
-            JsonFactory JF = new JsonFactory();
-            JsonParser rightsReader = JF.createParser(getClass().getResourceAsStream("/jacklsoft/jengine/config.json"));
+            JsonReader configReader = Json.createReader(new FileInputStream("rsc/launcher.json"));
+            JsonReader rightsReader = Json.createReader(getClass().getResourceAsStream("/jacklsoft/jengine/config.json"));
+            JsonObject rightsObject = rightsReader.readObject();
+            JsonObject cfgObject = configReader.readObject();
+
             rights = new TreeSet();
-            rightsReader.nextToken();
-            while(rightsReader.nextToken() != JsonToken.END_OBJECT){
-                if(rightsReader.getCurrentName() == "rights"){
-                    rightsReader.nextToken();
-                    while(rightsReader.nextToken() != JsonToken.END_ARRAY){
-                        rights.add(rightsReader.getText());
-                    }
-                }
+            for(JsonString i: rightsObject.getJsonArray("rights").getValuesAs(JsonString.class)){
+                rights.add(i.getString());
             }
             rightsReader.close();
 
-            JsonParser configReader = JF.createParser(new FileReader(new File("rsc/launcher.json")));
-            configReader.nextToken();
-            while(configReader.nextToken() != JsonToken.END_OBJECT){
-                switch(configReader.getCurrentName()){
-                    case "title":
-                        title = configReader.nextTextValue();
-                        break;
-                    case "resources":
-                        rootPath = configReader.nextTextValue();
-                        break;
-                    case "connection":
-                        connection = configReader.nextTextValue();
-                        break;
-                }
-            }
-            configReader.close();
+            title = cfgObject.getString("title");
+            rootPath = cfgObject.getString("resources");
+            connection = cfgObject.getString("connection");
             
             new File(rootPath+"resources").mkdir();
             new File(rootPath+"resources\\img").mkdir();

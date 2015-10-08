@@ -1,22 +1,23 @@
 package jacklsoft.jengine.tools;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
+import org.apache.poi.util.IOUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.awt.*;
 import java.io.*;
+import java.util.Scanner;
 
 /**
  * Created by leonardo.mangano on 27/09/2015.
  */
 public class HTMLDocument {
     public interface JSONFiller<T>{
-        public ObjectNode fromSQL(T sql);
+        public JSONObject fromSQL(T sql);
     }
 
     Document document;
@@ -40,20 +41,29 @@ public class HTMLDocument {
             return null;
         }
     }
+    public String fileToString(File file){
+        String RV = null;
+        try {
+            Scanner S = new Scanner(new File("readme.txt")).useDelimiter("\\A");
+            RV = S.next();
+            S.close();
+            return RV;
+        } catch (FileNotFoundException e) {Tools.exceptionDialog("IO Exception", "File not found", e);}
+        return RV;
+    }
     public void addJS(String path){
         appendHTML("head", "<script src='" + new File(path).getAbsolutePath() + "'></script>");
     }
     public void addCSS(String path){
         appendHTML("head", "<link href='" + new File(path).getAbsolutePath() + "' rel='stylesheet'/>");
     }
-    public void addData(String selector, String varName, ObjectNode data){
+    public void addData(String selector, String varName, JSONObject data){
         setHTML(selector, "var " + varName + " = " + data.toString() + ";");
     }
-    public static <T> ArrayNode SQLtoJSON(ObservableList<T> result, JSONFiller<T> filler){
-        JsonNodeFactory JNF = JsonNodeFactory.instance;
-        ArrayNode array = JNF.arrayNode();
+    public static <T> JSONArray SQLtoJSON(ObservableList<T> result, JSONFiller<T> filler){
+        JSONArray array = new JSONArray();
         for(T i: result){
-            array.add(filler.fromSQL(i));
+            array.put(filler.fromSQL(i));
         }
 
         return array;
