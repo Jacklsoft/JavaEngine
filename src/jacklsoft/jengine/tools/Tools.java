@@ -26,7 +26,7 @@ public class Tools {
     public static Image getResourcesImage(String path, String ID, String extension){
         Image image = null;
         try {
-            try (FileInputStream fis = new FileInputStream(new File(JEngine.rootPath+"resources\\img\\"+path+"\\"+ID+extension))) {
+            try (FileInputStream fis = new FileInputStream(new File(JEngine.launcherCFG.getString("resources")+"resources\\img\\"+path+"\\"+ID+extension))) {
                 image = new Image(fis);
             }
         } catch (FileNotFoundException ex) {
@@ -36,12 +36,12 @@ public class Tools {
     public static boolean storeResource(String path, String ID, String extension, File file){
         try{
             if(file == null){
-                File dest = new File(JEngine.rootPath+"resources\\"+path+ID+extension);
+                File dest = new File(JEngine.launcherCFG.getString("resources")+"resources\\"+path+ID+extension);
                 if(dest.exists()){
                     Files.delete(dest.toPath());
                 }
             } else {
-                File dest = new File(JEngine.rootPath+"resources\\"+path+ID+extension);
+                File dest = new File(JEngine.launcherCFG.getString("resources")+"resources\\"+path+ID+extension);
                 Files.copy(file.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
             return true;
