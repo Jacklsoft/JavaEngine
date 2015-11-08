@@ -27,13 +27,11 @@ import javax.json.JsonString;
  */
 public class JEngine{
     public static JEngine ST = new JEngine();
-    public static String rootPath;
+    public static JsonObject launcherCFG;
     public Stage stage;
     public Scene scene;
     public Parent root;
     public Main main;
-    public String title;
-    public String connection;
     public TreeSet<String> rights;
     
     private JEngine(){};
@@ -44,7 +42,7 @@ public class JEngine{
             JsonReader configReader = Json.createReader(new FileInputStream("rsc/launcher.json"));
             JsonReader rightsReader = Json.createReader(getClass().getResourceAsStream("/jacklsoft/jengine/config.json"));
             JsonObject rightsObject = rightsReader.readObject();
-            JsonObject cfgObject = configReader.readObject();
+            launcherCFG = configReader.readObject();
 
             rights = new TreeSet();
             for(JsonString i: rightsObject.getJsonArray("rights").getValuesAs(JsonString.class)){
@@ -52,9 +50,9 @@ public class JEngine{
             }
             rightsReader.close();
 
-            title = cfgObject.getString("title");
-            rootPath = cfgObject.getString("resources");
-            connection = cfgObject.getString("connection");
+            String title = launcherCFG.getString("title");
+            String rootPath = launcherCFG.getString("resources");
+            String connection = launcherCFG.getString("connection");
             
             new File(rootPath+"resources").mkdir();
             new File(rootPath+"resources\\img").mkdir();

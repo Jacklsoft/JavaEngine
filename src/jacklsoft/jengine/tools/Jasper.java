@@ -35,7 +35,7 @@ public class Jasper {
             } else {
                 this.parameters = parameters;
             }
-            this.parameters.put("REPORT_ROOT", JEngine.rootPath);
+            this.parameters.put("REPORT_ROOT", JEngine.launcherCFG.getString("resources"));
             this.loads = new ListOfArrayDataSource(data, vars);
 	}
 	public InputStream getRoot(){
