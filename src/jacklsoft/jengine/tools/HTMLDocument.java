@@ -58,9 +58,8 @@ public class HTMLDocument {
 
         return array;
     }
-    public void run(){
+    public void run(File output){
         try {
-            File output = Tools.saveFile(new FileChooser.ExtensionFilter("HTML File", "*.html"));
             PrintWriter writer = new PrintWriter(output, "UTF-8");
             writer.write(document.html());
             writer.flush();
@@ -69,5 +68,8 @@ public class HTMLDocument {
         } catch (IOException e) {
             Tools.exceptionDialog("File not found", "No se encontró el archivo", e);
         }
+    }
+    public void run(){
+        run(Tools.saveFile(new FileChooser.ExtensionFilter("HTML File", "*.html")));
     }
 }
