@@ -1,23 +1,22 @@
 <component name="libraryTable">
   <library name="JavaEngineDependencies">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../libs/commons-beanutils-1.9.0.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libs/commons-codec-1.5.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libs/commons-collections-3.2.1.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libs/commons-digester-2.1.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libs/commons-logging-1.1.1.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libs/controlsfx-8.20.8.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libs/groovy-all-2.0.1.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libs/iText-2.1.7.js2.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libs/jasperreports-6.0.4.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libs/javax.json-1.0.4.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libs/jcommon-1.0.15.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libs/jfreechart-1.0.12.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libs/JSON-java.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libs/jsoup-1.8.3.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libs/opencsv-3.3.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libs/poi-3.10.1.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libs/sqljdbc42.jar!/" />
+      <root url="jar://C:/Jacklsoft/libs/commons-digester-2.1.jar!/" />
+      <root url="jar://C:/Jacklsoft/libs/jasperreports-6.0.4.jar!/" />
+      <root url="jar://C:/Jacklsoft/libs/groovy-all-2.0.1.jar!/" />
+      <root url="jar://C:/Jacklsoft/libs/commons-codec-1.5.jar!/" />
+      <root url="jar://C:/Jacklsoft/libs/iText-2.1.7.js2.jar!/" />
+      <root url="jar://C:/Jacklsoft/libs/commons-collections-3.2.1.jar!/" />
+      <root url="jar://C:/Jacklsoft/libs/commons-beanutils-1.9.0.jar!/" />
+      <root url="jar://C:/Jacklsoft/libs/commons-logging-1.1.1.jar!/" />
+      <root url="jar://C:/Jacklsoft/libs/javax.json-1.0.4.jar!/" />
+      <root url="jar://C:/Jacklsoft/libs/jcommon-1.0.15.jar!/" />
+      <root url="jar://C:/Jacklsoft/libs/jfreechart-1.0.12.jar!/" />
+      <root url="jar://C:/Jacklsoft/libs/JSON-java.jar!/" />
+      <root url="jar://C:/Jacklsoft/libs/jsoup-1.8.3.jar!/" />
+      <root url="jar://C:/Jacklsoft/libs/opencsv-3.3.jar!/" />
+      <root url="jar://C:/Jacklsoft/libs/poi-3.10.1.jar!/" />
+      <root url="jar://C:/Jacklsoft/libs/sqljdbc42.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

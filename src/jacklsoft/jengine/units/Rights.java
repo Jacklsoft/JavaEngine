@@ -13,7 +13,7 @@ import jacklsoft.jengine.controls.JBButton;
 import jacklsoft.jengine.controls.JBContext;
 import jacklsoft.jengine.controls.JBField;
 import jacklsoft.jengine.controls.JBTable;
-import jacklsoft.jengine.tools.Alert;
+import jacklsoft.jengine.tools.AlertException;
 import jacklsoft.jengine.tools.Tools;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ComboBox;
@@ -57,7 +57,7 @@ public class Rights implements Initializable {
             if(!tfUser.isNull()){
                 try {
                     return Permission.query(tfUser.retString(), null);
-                } catch (Alert ex) {Tools.alertDialog(ex);}
+                } catch (AlertException ex) {Tools.alertDialog(ex);}
             }
             return null;
         }, new JBContext());

@@ -2,6 +2,8 @@ package jacklsoft.jengine.controls;
 
 import com.sun.javafx.scene.control.skin.ComboBoxListViewSkin;
 import java.util.function.Predicate;
+
+import jacklsoft.jengine.tools.AlertException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -14,7 +16,6 @@ import javafx.scene.input.KeyCode;
 import jacklsoft.jengine.interfaces.Control;
 import jacklsoft.jengine.interfaces.KeyValue;
 import jacklsoft.jengine.interfaces.Query;
-import jacklsoft.jengine.tools.Alert;
 import jacklsoft.jengine.tools.Tools;
 
 /**
@@ -100,7 +101,7 @@ public class JBCombo<T extends KeyValue<K, V>, K, V> extends ComboBox<T> impleme
                 setItems(filtered);
                 this.getSelectionModel().clearSelection();
             }
-        } catch (Alert ex) {Tools.alertDialog(ex);}
+        } catch (AlertException ex) {Tools.alertDialog(ex);}
     }
     @Override
     public void reset(){
@@ -140,38 +141,38 @@ public class JBCombo<T extends KeyValue<K, V>, K, V> extends ComboBox<T> impleme
             this.getSelectionModel().clearSelection();
         }
     }
-    public T retNItem() throws Alert {
+    public T retNItem() throws AlertException {
         setStyle(defStyle);
         return getSelectionModel().getSelectedItem();
     }
-    public T retItem() throws Alert{
+    public T retItem() throws AlertException {
         T RV = getSelectionModel().getSelectedItem();
         if(RV == null){
             setRedStyle();
-            throw new Alert("Error message", "El campo "+getId()+" se encuentra vacío");
+            throw new AlertException("Error message", "El campo "+getId()+" se encuentra vacío");
         } else {
             setStyle(defStyle);
             return RV;
         }
     }
-    public K retNKey() throws Alert{
+    public K retNKey() throws AlertException {
         setStyle(defStyle);
         T item = retNItem();
         if(item == null){
             return null;
         } else return item.key();
     }
-    public K retKey() throws Alert{
+    public K retKey() throws AlertException {
         return retItem().key();
     }
-    public V retNValue() throws Alert{
+    public V retNValue() throws AlertException {
         setStyle(defStyle);
         T item = retNItem();
         if(item == null){
             return null;
         } else return item.value();
     }
-    public V retValue() throws Alert{
+    public V retValue() throws AlertException {
         return retItem().value();
     }
     

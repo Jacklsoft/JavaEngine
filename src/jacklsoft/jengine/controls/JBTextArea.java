@@ -1,11 +1,12 @@
 package jacklsoft.jengine.controls;
 
 import java.sql.Date;
+
+import jacklsoft.jengine.tools.AlertException;
 import javafx.scene.Node;
 import javafx.scene.control.Skin;
 import javafx.scene.control.TextArea;
 import jacklsoft.jengine.interfaces.Control;
-import jacklsoft.jengine.tools.Alert;
 import jacklsoft.jengine.tools.Tools;
 
 /**
@@ -29,12 +30,12 @@ public class JBTextArea extends TextArea implements Skin<JBTextArea>, Control{
         setStyle(defStyle);
         return (getText() == null || getText().equals(""));
     }
-    public void validate(boolean isValid, String message) throws Alert{
+    public void validate(boolean isValid, String message) throws AlertException {
         if(isValid){
             setStyle(defStyle);
         } else {
             setStyle("-fx-background-color: #FF6666");
-            throw new Alert("Valor erróneo", message);
+            throw new AlertException("Valor erróneo", message);
         }
     }
     public void putInt(Integer value){
@@ -49,7 +50,7 @@ public class JBTextArea extends TextArea implements Skin<JBTextArea>, Control{
     public void putFloat(Float value){
         setText(String.valueOf(value));
     }
-    public Integer retInt() throws Alert {
+    public Integer retInt() throws AlertException {
         if(isNull()){
                 validate(false, "El campo "+getId()+" no puede quedar vacío, debe contener un número entero válido.");
                 return null;
@@ -64,7 +65,7 @@ public class JBTextArea extends TextArea implements Skin<JBTextArea>, Control{
                 }
         }
     }
-    public Integer retNInt() throws Alert {
+    public Integer retNInt() throws AlertException {
         if(isNull()){
                 validate(true, null);
                 return null;
@@ -79,7 +80,7 @@ public class JBTextArea extends TextArea implements Skin<JBTextArea>, Control{
                 }
         }
     }
-    public String retString() throws Alert {
+    public String retString() throws AlertException {
         if(isNull()){
                 validate(false, "El campo "+getId()+" no puede quedar vacío.");
                 return null;
@@ -88,7 +89,7 @@ public class JBTextArea extends TextArea implements Skin<JBTextArea>, Control{
                 return getText();
         }
     }
-    public String retNString() throws Alert {
+    public String retNString() throws AlertException {
         if(isNull()){
                 validate(true, null);
                 return null;
@@ -97,7 +98,7 @@ public class JBTextArea extends TextArea implements Skin<JBTextArea>, Control{
                 return getText();
         }
     }
-    public Date retDate() throws Alert {
+    public Date retDate() throws AlertException {
         if(isNull()){
                 validate(false, "El campo "+getId()+" no puede quedar vacío, debe contener un fecha válida [dd/MM/yyyy].");
                 return null;
@@ -112,7 +113,7 @@ public class JBTextArea extends TextArea implements Skin<JBTextArea>, Control{
                 }
         }
     }
-    public Date retNDate() throws Alert {
+    public Date retNDate() throws AlertException {
         if(isNull()){
                 validate(true, null);
                 return null;
@@ -127,7 +128,7 @@ public class JBTextArea extends TextArea implements Skin<JBTextArea>, Control{
                 }
         }
     }
-    public Float retFloat() throws Alert {
+    public Float retFloat() throws AlertException {
         if(isNull()){
                 validate(false, "El campo "+getId()+" no puede quedar vacío, debe contener un número decimal válido.");
                 return null;
@@ -142,7 +143,7 @@ public class JBTextArea extends TextArea implements Skin<JBTextArea>, Control{
                 }
         }
     }
-    public Float retNFloat() throws Alert {
+    public Float retNFloat() throws AlertException {
         if(isNull()){
                 validate(true, null);
                 return null;

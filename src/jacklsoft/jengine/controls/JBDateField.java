@@ -10,7 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Skin;
 import jacklsoft.jengine.interfaces.Control;
-import jacklsoft.jengine.tools.Alert;
+import jacklsoft.jengine.tools.AlertException;
 
 /**
  *
@@ -35,18 +35,18 @@ public class JBDateField extends DatePicker implements Skin<JBDateField>, Contro
         setStyle(defStyle);
         return (getValue() == null);
     }
-    public void validate(boolean isValid, String message) throws Alert{
+    public void validate(boolean isValid, String message) throws AlertException {
         if(isValid){
             setStyle(defStyle);
         } else {
             setStyle("-fx-background-color: #FF6666");
-            throw new Alert("Valor erróneo", message);
+            throw new AlertException("Valor erróneo", message);
         }
     }
     public void putDate(Date value){
         setValue((value == null ? null : value.toLocalDate()));
     }
-    public Date retDate() throws Alert {
+    public Date retDate() throws AlertException {
         if(isNull()){
                 validate(false, "El campo "+getId()+" no puede quedar vacío, debe contener un fecha válida [dd/MM/yyyy].");
                 return null;
@@ -61,7 +61,7 @@ public class JBDateField extends DatePicker implements Skin<JBDateField>, Contro
                 }
         }
     }
-    public Date retNDate() throws Alert {
+    public Date retNDate() throws AlertException {
         if(isNull()){
                 validate(true, null);
                 return null;

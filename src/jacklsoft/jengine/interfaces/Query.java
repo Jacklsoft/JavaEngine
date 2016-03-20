@@ -6,7 +6,7 @@
 package jacklsoft.jengine.interfaces;
 
 import javafx.collections.ObservableList;
-import jacklsoft.jengine.tools.Alert;
+import jacklsoft.jengine.tools.AlertException;
 
 /**
  *
@@ -14,5 +14,5 @@ import jacklsoft.jengine.tools.Alert;
  * @param <T>
  */
 public interface Query<T> {
-    public ObservableList<T> execute() throws Alert;
+    public ObservableList<T> execute() throws AlertException;
 }
