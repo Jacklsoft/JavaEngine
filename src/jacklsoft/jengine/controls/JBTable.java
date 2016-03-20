@@ -31,10 +31,9 @@ import jacklsoft.jengine.interfaces.ArrayLoop;
 import jacklsoft.jengine.interfaces.Control;
 import jacklsoft.jengine.interfaces.Query;
 import jacklsoft.jengine.interfaces.SendRow;
-import jacklsoft.jengine.tools.Alert;
+import jacklsoft.jengine.tools.AlertException;
 import jacklsoft.jengine.tools.Tools;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.SortType;
 
 /**
  *
@@ -86,7 +85,7 @@ public class JBTable<T> extends TableView<T> implements Skin<JBTable>, Control{
                 }
             }
             for(TableColumn<T, ?> i: col){ this.getSortOrder().add(i); }
-        } catch (Alert ex) {Tools.alertDialog(ex);}
+        } catch (AlertException ex) {Tools.alertDialog(ex);}
     }
     public void setFilterOnReset(boolean filter){
         this.filterOnReset = filter;

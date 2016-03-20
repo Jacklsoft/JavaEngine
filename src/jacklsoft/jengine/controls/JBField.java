@@ -1,11 +1,12 @@
 package jacklsoft.jengine.controls;
 
 import java.sql.Date;
+
+import jacklsoft.jengine.tools.AlertException;
 import javafx.scene.Node;
 import javafx.scene.control.Skin;
 import javafx.scene.control.TextField;
 import jacklsoft.jengine.interfaces.Control;
-import jacklsoft.jengine.tools.Alert;
 import jacklsoft.jengine.tools.Tools;
 
 public class JBField extends TextField implements Skin<JBField>, Control{
@@ -27,14 +28,14 @@ public class JBField extends TextField implements Skin<JBField>, Control{
         setStyle(defStyle);
         return (getText() == null || getText().equals(""));
     }
-    public void validate(boolean isValid, String message) throws Alert{
+    public void validate(boolean isValid, String message) throws AlertException {
         if(isValid){
             setStyle(defStyle);
         } else {
             setStyle("-fx-base: #FF6666");
             setStyle("-fx-background: #FF6666");
             setStyle("-fx-control-inner-background: #FF6666");
-            throw new Alert("Valor erróneo", message);
+            throw new AlertException("Valor erróneo", message);
         }
     }
     public void putInt(Integer value){
@@ -52,7 +53,7 @@ public class JBField extends TextField implements Skin<JBField>, Control{
     public void putDouble(Double value){
         setText(value == null ? "" : String.valueOf(value));
     }
-    public Integer retInt() throws Alert {
+    public Integer retInt() throws AlertException {
         if(isNull()){
                 validate(false, "El campo "+getId()+" no puede quedar vacío, debe contener un número entero válido.");
                 return null;
@@ -67,7 +68,7 @@ public class JBField extends TextField implements Skin<JBField>, Control{
                 }
         }
     }
-    public Integer retNInt() throws Alert {
+    public Integer retNInt() throws AlertException {
         if(isNull()){
                 validate(true, null);
                 return null;
@@ -82,7 +83,7 @@ public class JBField extends TextField implements Skin<JBField>, Control{
                 }
         }
     }
-    public String retString() throws Alert {
+    public String retString() throws AlertException {
         if(isNull()){
                 validate(false, "El campo "+getId()+" no puede quedar vacío.");
                 return null;
@@ -91,7 +92,7 @@ public class JBField extends TextField implements Skin<JBField>, Control{
                 return getText();
         }
     }
-    public String retNString() throws Alert {
+    public String retNString() throws AlertException {
         if(isNull()){
                 validate(true, null);
                 return null;
@@ -100,7 +101,7 @@ public class JBField extends TextField implements Skin<JBField>, Control{
                 return getText();
         }
     }
-    public Date retDate() throws Alert {
+    public Date retDate() throws AlertException {
         if(isNull()){
                 validate(false, "El campo "+getId()+" no puede quedar vacío, debe contener un fecha válida [dd/MM/yyyy].");
                 return null;
@@ -115,7 +116,7 @@ public class JBField extends TextField implements Skin<JBField>, Control{
                 }
         }
     }
-    public Date retNDate() throws Alert {
+    public Date retNDate() throws AlertException {
         if(isNull()){
                 validate(true, null);
                 return null;
@@ -130,7 +131,7 @@ public class JBField extends TextField implements Skin<JBField>, Control{
                 }
         }
     }
-    public Float retFloat() throws Alert {
+    public Float retFloat() throws AlertException {
         if(isNull()){
                 validate(false, "El campo "+getId()+" no puede quedar vacío, debe contener un número decimal válido.");
                 return null;
@@ -145,7 +146,7 @@ public class JBField extends TextField implements Skin<JBField>, Control{
                 }
         }
     }
-    public Float retNFloat() throws Alert {
+    public Float retNFloat() throws AlertException {
         if(isNull()){
                 validate(true, null);
                 return null;
@@ -160,7 +161,7 @@ public class JBField extends TextField implements Skin<JBField>, Control{
                 }
         }
     }
-    public Double retDouble() throws Alert {
+    public Double retDouble() throws AlertException {
         if(isNull()){
                 validate(false, "El campo "+getId()+" no puede quedar vacío, debe contener un número decimal válido.");
                 return null;
@@ -175,7 +176,7 @@ public class JBField extends TextField implements Skin<JBField>, Control{
                 }
         }
     }
-    public Double retNDouble() throws Alert {
+    public Double retNDouble() throws AlertException {
         if(isNull()){
                 validate(true, null);
                 return null;

@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Skin;
 import jacklsoft.jengine.interfaces.Control;
-import jacklsoft.jengine.tools.Alert;
+import jacklsoft.jengine.tools.AlertException;
 
 public class JBLabel extends Label implements Skin<JBLabel>, Control{
     @SuppressWarnings("compatibility:-1465854168171926622")
@@ -28,14 +28,14 @@ public class JBLabel extends Label implements Skin<JBLabel>, Control{
             setText(value);
         }
     }
-    public String retString() throws Alert {
+    public String retString() throws AlertException {
         if(isNull()){
-                throw new Alert("Valor erróneo", "El campo "+getId()+" no puede quedar vacío.");
+                throw new AlertException("Valor erróneo", "El campo "+getId()+" no puede quedar vacío.");
         } else {
                 return getText();
         }
     }
-    public String retNString() throws Alert {
+    public String retNString() throws AlertException {
         if(isNull()){
                 return null;
         } else {

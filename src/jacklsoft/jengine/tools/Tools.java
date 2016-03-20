@@ -1,26 +1,28 @@
 package jacklsoft.jengine.tools;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Optional;
 import java.util.Scanner;
+
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import jacklsoft.jengine.JEngine;
 import java.nio.file.StandardCopyOption;
-
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialogs;
+import javafx.scene.control.Alert;
 
 public class Tools {
     public static Image getResourcesImage(String path, String ID, String extension){
@@ -61,48 +63,75 @@ public class Tools {
     public static Date getToday(){
         return new Date(new java.util.Date().getTime());
     }
-    public static Action alertDialog(Alert e){
-        return exceptionDialog(e.toString(), e.getMessage(), e);
+    public static void alertDialog(AlertException e){
+        exceptionDialog(e.toString(), e.getMessage(), e);
     }
-    public static Action exceptionDialog(String title, String msj, Throwable e){
-        return Dialogs.create()
-                .owner(null)
-                .title("Exception")
-                .masthead(title)
-                .message(msj)
-                .showException(e);
+    public static void exceptionDialog(String title, String msj, Throwable e){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Exception Dialog");
+        alert.setHeaderText(title);
+        alert.setContentText(msj);
+
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        String exceptionText = sw.toString();
+
+        Label label = new Label("The exception stacktrace was:");
+
+        TextArea textArea = new TextArea(exceptionText);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setVgrow(textArea, Priority.ALWAYS);
+        GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+        GridPane expContent = new GridPane();
+        expContent.setMaxWidth(Double.MAX_VALUE);
+        expContent.add(label, 0, 0);
+        expContent.add(textArea, 0, 1);
+        alert.getDialogPane().setExpandableContent(expContent);
+
+        alert.showAndWait();
     }
-    public static Action warningDialog(String title, String msj){
-        return Dialogs.create()
-                .owner(null)
-                .title("Message")
-                .masthead(title)
-                .message(msj)
-                .showWarning();
+    public static void warningDialog(String title, String msj){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Alert Dialog");
+        alert.setHeaderText(title);
+        alert.setContentText(msj);
+
+        alert.showAndWait();
     }
     public static void informationDialog(String title, String msj){
-        Dialogs.create()
-                .owner(null)
-                .title("Message")
-                .masthead(title)
-                .message(msj)
-                .showInformation();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(title);
+        alert.setContentText(msj);
+
+        alert.showAndWait();
     }
-    public static Action errorDialog(String title, String msj){
-        return Dialogs.create()
-                .owner(null)
-                .title("Error")
-                .masthead(title)
-                .message(msj)
-                .showError();
+    public static void errorDialog(String title, String msj){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error Dialog");
+        alert.setHeaderText(title);
+        alert.setContentText(msj);
+
+        alert.showAndWait();
     }
-    public static Action confirmDialog(String title, String msj){
-        return Dialogs.create()
-                .owner(null)
-                .title("Confirm")
-                .masthead(title)
-                .message(msj)
-                .showConfirm();
+    public static boolean confirmDialog(String title, String msj){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText(title);
+        alert.setContentText(msj);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
+            return true;
+        } else {
+            return false;
+        }
     }
     public static Calendar getCalendar(Date date){
         if(date != null){
